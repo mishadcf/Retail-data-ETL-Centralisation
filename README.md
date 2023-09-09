@@ -55,17 +55,6 @@ Each data source posed unique challenges for extraction, cleaning, and utilizati
 > 🤔 **My approach**: for each data source, I wrote and checked the functions in Notebooks before organising the code in scripts, adhering to OOP principles : abstraction, inheritance, polymorphism.
 
 
-TODOLIST
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-- cleaning logic (overview for each source)
-- check primary keys are correct. And data sources
-- Add more photos
-- Need to make the documentation very pretty, including docstrings 
-
-
-
 
 
 

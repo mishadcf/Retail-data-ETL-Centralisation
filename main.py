@@ -2,29 +2,10 @@ import data_cleaning
 import data_extraction
 import database_utils
 import argparse
-import transformations
-
-
-# initialise 3 classes : 6 functions - targeting a specific table: for each, connect to DB(create DBconnector)
-# for each DF: call in sequence, which functions to call  - different sequences
-# DatabaseConnector, DataExtractor, DataCleaning for each table (initialised)
-# TODO : main.py sequence to call relevant functions for table name inputs, call upload_to_db
-
-######EXTRACTION#######
-######TRANSFORMATION#######
-######LOADING#######
 
 
 def main():
-    # Argument parser to handle CLI arguments
-
     parser = argparse.ArgumentParser(description="ETL Data Centralisation Tool")
-
-    parser.add_argument(
-        "table_name",
-        type=str,
-        help="The name of the table to extract, clean and centralise into a local postgres database",
-    )
 
     parser.add_argument(
         "type",
@@ -40,42 +21,50 @@ def main():
     )
 
     args = parser.parse_args()
-
+    # user and orders args code is working.
     if args.type == "user":
-        data = data_extraction.DataExtractor.read_rds_table("legacy_user_data")
+        de = data_extraction.DataExtractor()
+        data = de.read_rds_table("legacy_users")
         cleaned_data = data_cleaning.DataCleaning.clean_user_data(data)
-        database_utils.DatabaseConnector.upload_to_db("dim_users_table", cleaned_data)
+
+        db_connector = database_utils.DatabaseConnector()  # Create an instance
+        db_connector.upload_to_db(
+            "dim_users_table", cleaned_data
+        )  # Call the instance method
 
     if args.type == "card":
         data = data_extraction.DataExtractor.retrieve_pdf_data(
             "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
         )
         cleaned_data = data_cleaning.DataCleaning.clean_card_data(data)
-        database_utils.DatabaseConnector.upload_to_db("dim_cards", cleaned_data)
+        dc = database_utils.DatabaseConnector()
+        database_utils.DatabaseConnector.upload_to_db(dc, cleaned_data, "dim_cards")
 
     if args.type == "store":
         data = data_extraction.DataExtractor.retrieve_stores_data()
-        cleaned_data = data_cleaning.DataCleaning.clean_user_data(data)
-        database_utils.DatabaseConnector.upload_to_db("dim_users_table", cleaned_data)
+        cleaned_data = data_cleaning.DataCleaning.clean_store_data(data)
+        database_utils.DatabaseConnector.upload_to_db("dim_stores", cleaned_data)
 
     if args.type == "product":
         data = data_extraction.DataExtractor.retrieve_pdf_data(
             "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
         )
-        cleaned_data = data_cleaning.DataCleaning.clean_card_data(data)
-        database_utils.DatabaseConnector.upload_to_db("dim_cards", cleaned_data)
+        cleaned_data = data_cleaning.DataCleaning.clean_product_data(data)
+        database_utils.DatabaseConnector.upload_to_db("dim_products", cleaned_data)
 
     if args.type == "order":
-        data = data_extraction.DataExtractor.read_rds_table("legacy_user_data")
-        cleaned_data = data_cleaning.DataCleaning.clean_user_data(data)
-        database_utils.DatabaseConnector.upload_to_db("dim_users_table", cleaned_data)
+        de = data_extraction.DataExtractor()
+        data = de.read_rds_table("orders_table")
+        cleaned_data = data_cleaning.DataCleaning.clean_orders_data(data)
+        dc = database_utils.DatabaseConnector()  # Create an instance
+        dc.upload_to_db("orders_table", cleaned_data)
 
     if args.type == "date_event":
-        data = data_extraction.DataExtractor.retrieve_pdf_data(
+        data = data_extraction.DataExtractor.extract_from_s3(
             "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
         )
         cleaned_data = data_cleaning.DataCleaning.clean_card_data(data)
-        database_utils.DatabaseConnector.upload_to_db("dim_cards", cleaned_data)
+        database_utils.DatabaseConnector.upload_to_db("dim_date_times", cleaned_data)
 
     # first write logic for user_data ETL (structure well - for exteneding the same format to other ETL for different tables)
 

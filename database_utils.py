@@ -11,7 +11,7 @@ class DatabaseConnector:
 
     def init_db_engine(self, env="RDS"):
         """creates an sqlalchemy database engine from the YAML credentials, allowing for local environment and the RDS"""
-        creds = DatabaseConnector.read_db_creds(env=env)
+        creds = self.read_db_creds(env=env)
 
         connection_string = f"postgresql://{creds['USER']}:{creds['PASSWORD']}@{creds['HOST']}:{creds['PORT']}/{creds['DATABASE']}"
         engine = sqlalchemy.create_engine(connection_string)

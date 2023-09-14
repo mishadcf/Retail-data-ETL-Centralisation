@@ -26,7 +26,7 @@ class DataCleaning:
     def clean_card_data(df):
         """Cleans the card data DataFrame"""
 
-        def drop_rows_with_invalid_card_numbers(df):
+        def drop_rows_with_invalid_card_numbers(df):  # move to transformations
             return df[~df["card_number"].astype(str).str.contains("\?", regex=True)]
 
         df = drop_rows_with_invalid_card_numbers(df)
@@ -65,7 +65,7 @@ class DataCleaning:
         df_products.rename(columns={"weight": "weight(KG)"}, inplace=True)
         return df_products
 
-    def convert_product_weights(df_products):
+    def convert_product_weights(df_products):  # move to transformations
         def clean_g(gram_string):
             return (
                 float(gram_string.replace("g", "")) / 1000

@@ -7,8 +7,10 @@ import boto3
 
 
 class DataExtractor:
-    def __init__(self, db_connector=DatabaseConnector()):
-        self.db_connector = DatabaseConnector()
+    def __init__(self, db_connector=None):
+        if db_connector is None:
+            db_connector = DatabaseConnector()
+        self.db_connector = db_connector
 
     def read_rds_table(self, table_name):
         """_summary_

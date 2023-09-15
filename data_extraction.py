@@ -4,6 +4,7 @@ import tabula
 import requests
 import json
 import boto3
+import os
 
 
 class DataExtractor:
@@ -75,10 +76,18 @@ class DataExtractor:
 
     @staticmethod
     def retrieve_stores_data(
-        headers,
+        headers=None,
         base_URL="https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}",
         n_stores_API_endpoint="https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores",
     ):
+        if headers == None:
+            api_key = os.environ.get("API_KEY")
+            if api_key == None:
+                raise Exception(
+                    "Please set the API_KEY environment variable before running this script."
+                )
+            headers = {"x-api-key": api_key}
+
         n = DataExtractor.list_number_of_stores(n_stores_API_endpoint, headers)
         if n is None:
             return None  # or raise an exception

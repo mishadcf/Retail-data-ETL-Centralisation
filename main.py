@@ -2,6 +2,15 @@ import data_cleaning
 import data_extraction
 import database_utils
 import argparse
+import os
+
+api_key = os.environ.get("API_KEY")
+if api_key is None:
+    raise Exception(
+        "Please set the API_KEY environment variable before running this script."
+    )
+
+headers = {"x-api-key": api_key}
 
 
 def main():

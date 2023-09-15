@@ -21,24 +21,23 @@ def main():
     )
 
     args = parser.parse_args()
-    # user and orders args code is working.
+    # user and orders, card args code is working.
     if args.type == "user":
         de = data_extraction.DataExtractor()
         data = de.read_rds_table("legacy_users")
         cleaned_data = data_cleaning.DataCleaning.clean_user_data(data)
 
-        db_connector = database_utils.DatabaseConnector()  # Create an instance
-        db_connector.upload_to_db(
-            "dim_users_table", cleaned_data
-        )  # Call the instance method
+        dc = database_utils.DatabaseConnector()  # Create an instance
+        dc.upload_to_db("dim_users_table", cleaned_data)  # Call the instance method
 
     if args.type == "card":
-        data = data_extraction.DataExtractor.retrieve_pdf_data(
+        de = data_extraction.DataExtractor()
+        data = de.retrieve_pdf_data(
             "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
         )
         cleaned_data = data_cleaning.DataCleaning.clean_card_data(data)
         dc = database_utils.DatabaseConnector()
-        database_utils.DatabaseConnector.upload_to_db(dc, cleaned_data, "dim_cards")
+        dc.upload_to_db("dim_cards", cleaned_data)
 
     if args.type == "store":
         data = data_extraction.DataExtractor.retrieve_stores_data()

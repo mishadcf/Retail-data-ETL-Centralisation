@@ -45,7 +45,7 @@ class DataExtractor:
         return df_pdf
 
     @staticmethod
-    def list_number_of_stores(self, n_stores_API_endpoint, headers):
+    def list_number_of_stores(n_stores_API_endpoint, headers):
         r = requests.get(n_stores_API_endpoint, headers=headers)
         return json.loads(r.text)["number_stores"]  # number of stores
 

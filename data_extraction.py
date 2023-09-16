@@ -5,6 +5,7 @@ import requests
 import json
 import boto3
 import os
+import config
 
 
 class DataExtractor:
@@ -45,27 +46,6 @@ class DataExtractor:
         df_pdf = pd.concat(all_pages, ignore_index=True, join="inner")
         return df_pdf
 
-    # @staticmethod
-    # def list_number_of_stores(n_stores_API_endpoint, headers):
-    #     r = requests.get(n_stores_API_endpoint, headers=headers)
-    #     return json.loads(r.text)["number_stores"]  # number of stores
-
-    # @staticmethod
-    # def retrieve_stores_data(stores_info_endpoint, n_stores_API_endpoint ="https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores"  headers):
-    #     n = e.list_number_of_stores(n_stores_API_endpoint, headers)
-    #     base_URL = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}"
-    #     endpoints_list = [
-    #         f"https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}"
-    #         for store_number in range(n)
-    #     ]
-    #     response_list = [
-    #         requests.get(URL_string, headers=headers).text
-    #         for URL_string in endpoints_list
-    #     ]
-    #     response_list = [json.loads(response) for response in response_list]
-    #     df_stores_info = pd.DataFrame(response_list)
-    #     return df_stores_info
-
     @staticmethod
     def list_number_of_stores(n_stores_API_endpoint, headers):
         r = requests.get(n_stores_API_endpoint, headers=headers)
@@ -87,7 +67,7 @@ class DataExtractor:
                     "Please set the API_KEY environment variable before running this script."
                 )
             headers = {"x-api-key": api_key}
-
+            print(headers)
         n = DataExtractor.list_number_of_stores(n_stores_API_endpoint, headers)
         if n is None:
             return None  # or raise an exception
@@ -113,6 +93,31 @@ class DataExtractor:
         s3 = boto3.client("s3")
         df_products = pd.read_csv(local_file_path)
         return df_products
+
+    import boto3
+
+    @staticmethod
+    def extract_from_s32(
+        bucket_name="data-handling-public",
+        file_key="products.csv",
+        local_file_path="./products.csv",
+    ):
+        s3 = boto3.client("s3")
+
+        # Download the file from S3 to a local directory
+        try:
+            s3.download_file(bucket_name, file_key, local_file_path)
+        except Exception as e:
+            print(f"An error occurred while downloading the file from S3: {e}")
+            return None
+
+        # Read the file into a DataFrame
+        try:
+            df_products = pd.read_csv(local_file_path)
+            return df_products
+        except FileNotFoundError as e:
+            print(f"File not found: {e}")
+            return None
 
 
 # TODO: fill docstrings

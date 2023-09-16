@@ -39,7 +39,7 @@ class DataCleaning:
 
     def clean_store_data(df):
         """Cleans the store data DataFrame"""
-        df = df.drop(0)  # 'N/A' entries - had to add in (PG detected)
+
         df = df.drop("lat", axis=1)
         df = df.drop("index", axis=1)
         df.continent = df.continent.str.replace("ee", "")
@@ -60,7 +60,6 @@ class DataCleaning:
         """Cleans the product data DataFrame"""
 
         df_products = transformations.clean_upper_or_numeric_rows(df_products)
-        df_products.drop("Unnamed: 0", inplace=True, axis=1)
         df_products.dropna(inplace=True)
         df_products.rename(columns={"weight": "weight(KG)"}, inplace=True)
         return df_products

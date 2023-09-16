@@ -3,6 +3,10 @@ import data_extraction
 import database_utils
 import argparse
 import os
+import config
+import requests
+import pandas as pd
+import boto3
 
 api_key = os.environ.get("API_KEY")
 if api_key is None:
@@ -30,14 +34,14 @@ def main():
     )
 
     args = parser.parse_args()
-    # user and orders, card args code is working.
+    # user and orders, store, card args code is working.
     if args.type == "user":
         de = data_extraction.DataExtractor()
         data = de.read_rds_table("legacy_users")
         cleaned_data = data_cleaning.DataCleaning.clean_user_data(data)
 
-        dc = database_utils.DatabaseConnector()  # Create an instance
-        dc.upload_to_db("dim_users_table", cleaned_data)  # Call the instance method
+        dc = database_utils.DatabaseConnector()
+        dc.upload_to_db("dim_users_table", cleaned_data)
 
     if args.type == "card":
         de = data_extraction.DataExtractor()
@@ -51,20 +55,22 @@ def main():
     if args.type == "store":
         data = data_extraction.DataExtractor.retrieve_stores_data()
         cleaned_data = data_cleaning.DataCleaning.clean_store_data(data)
-        database_utils.DatabaseConnector.upload_to_db("dim_stores", cleaned_data)
+        dc = database_utils.DatabaseConnector()
+        dc.upload_to_db("dim_stores", cleaned_data)
 
     if args.type == "product":
-        data = data_extraction.DataExtractor.retrieve_pdf_data(
-            "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
+        data = data_extraction.DataExtractor.extract_from_s32(
+            "s3://data-handling-public/products.csv"
         )
         cleaned_data = data_cleaning.DataCleaning.clean_product_data(data)
-        database_utils.DatabaseConnector.upload_to_db("dim_products", cleaned_data)
+        dc = database_utils.DatabaseConnector()
+        dc.upload_to_db("dim_products", cleaned_data)
 
     if args.type == "order":
         de = data_extraction.DataExtractor()
         data = de.read_rds_table("orders_table")
         cleaned_data = data_cleaning.DataCleaning.clean_orders_data(data)
-        dc = database_utils.DatabaseConnector()  # Create an instance
+        dc = database_utils.DatabaseConnector()
         dc.upload_to_db("orders_table", cleaned_data)
 
     if args.type == "date_event":
@@ -73,8 +79,6 @@ def main():
         )
         cleaned_data = data_cleaning.DataCleaning.clean_card_data(data)
         database_utils.DatabaseConnector.upload_to_db("dim_date_times", cleaned_data)
-
-    # first write logic for user_data ETL (structure well - for exteneding the same format to other ETL for different tables)
 
 
 if __name__ == "__main__":

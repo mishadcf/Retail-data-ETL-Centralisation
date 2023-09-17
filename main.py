@@ -8,6 +8,10 @@ import requests
 import pandas as pd
 import boto3
 
+"""
+Main script to execute ETL (Extract, Transform, Load) tasks for different types of data.
+"""
+
 api_key = os.environ.get("API_KEY")
 if api_key is None:
     input("enter your S3")
@@ -16,6 +20,12 @@ headers = {"x-api-key": api_key}
 
 
 def main():
+    """
+    Main function for executing ETL tasks based on user input.
+
+    Uses argparse to allow the user to specify the type of data they want to clean.
+    Fetches data using various extraction methods, cleans it, and then uploads it to a database.
+    """
     parser = argparse.ArgumentParser(description="ETL Data Centralisation Tool")
 
     parser.add_argument(
@@ -32,7 +42,7 @@ def main():
     )
 
     args = parser.parse_args()
-    # user and orders, store, card args code is working.
+
     if args.type == "user":
         de = data_extraction.DataExtractor()
         data = de.read_rds_table("legacy_users")
@@ -77,4 +87,7 @@ def main():
 
 
 if __name__ == "__main__":
+    """
+    Executes the main function if the script is run as the main module.
+    """
     main()

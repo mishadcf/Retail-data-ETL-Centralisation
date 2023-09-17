@@ -26,8 +26,6 @@ class DataExtractor:
         Returns:
             DataFrame: _description_
         """
-        # if table_name not in self.list_tables():
-        #     raise ValueError(f"{table_name} is not found in the database")
 
         engine = self.db_connector.init_db_engine()
         return pd.read_sql_table(table_name, engine)
@@ -72,7 +70,6 @@ class DataExtractor:
         if n is None:
             return None  # or raise an exception
 
-        # base_URL = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}"
         endpoints_list = [base_URL.format(store_number=i) for i in range(n)]
 
         response_list = []
@@ -85,40 +82,7 @@ class DataExtractor:
         return df_stores_info
 
     @staticmethod
-    def extract_from_s3(
-        bucket_name="data-handling-public",
-        file_key="products.csv",
-        local_file_path="./products.csv",
-    ):
-        s3 = boto3.client("s3")
-        df_products = pd.read_csv(local_file_path)
-        return df_products
-
-    @staticmethod
-    def extract_from_s32(
-        bucket_name="data-handling-public",
-        file_key="products.csv",
-        local_file_path="./products.csv",
-    ):
-        s3 = boto3.client("s3")
-
-        # Download the file from S3 to a local directory
-        try:
-            s3.download_file(bucket_name, file_key, local_file_path)
-        except Exception as e:
-            print(f"An error occurred while downloading the file from S3: {e}")
-            return None
-
-        # Read the file into a DataFrame
-        try:
-            df_products = pd.read_csv(local_file_path)
-            return df_products
-        except FileNotFoundError as e:
-            print(f"File not found: {e}")
-            return None
-
-    @staticmethod
-    def extract_from_s33():
+    def extract_from_s3():
         s3 = boto3.client("s3")
         bucket_name = "data-handling-public"
         file_key = "products.csv"
@@ -126,6 +90,3 @@ class DataExtractor:
         s3.download_file(bucket_name, file_key, local_file_path)
         df_products = pd.read_csv(local_file_path)
         return df_products
-
-
-# TODO: fill docstrings

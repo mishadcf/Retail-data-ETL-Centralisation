@@ -123,7 +123,7 @@ class DataCleaning:
         return df
 
     def clean_date_events(df):
-        """Cleans date evetns DataFrame"""
+        """Cleans date events DataFrame"""
         df = transformations.clean_upper_or_numeric_rows(df)
         df["month"] = df["month"].astype("int")
         df["year"] = df["year"].astype("int")

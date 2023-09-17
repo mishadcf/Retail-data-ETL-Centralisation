@@ -90,3 +90,12 @@ class DataExtractor:
         s3.download_file(bucket_name, file_key, local_file_path)
         df_products = pd.read_csv(local_file_path)
         return df_products
+
+    @staticmethod
+    def extract_json_from_URL(
+        endpoint_URL="https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json",
+    ):
+        response = requests.get(endpoint_URL).text
+        j = json.loads(response)
+        df_date_events = pd.DataFrame(j)
+        return df_date_events

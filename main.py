@@ -70,11 +70,10 @@ def main():
         dc.upload_to_db("orders_table", cleaned_data)
 
     if args.type == "date_event":
-        data = data_extraction.DataExtractor.extract_from_s3(
-            "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
-        )
-        cleaned_data = data_cleaning.DataCleaning.clean_card_data(data)
-        database_utils.DatabaseConnector.upload_to_db("dim_date_times", cleaned_data)
+        data = data_extraction.DataExtractor.extract_json_from_URL()
+        cleaned_data = data_cleaning.DataCleaning.clean_date_events(data)
+        dc = database_utils.DatabaseConnector()
+        dc.upload_to_db("dim_date_times", cleaned_data)
 
 
 if __name__ == "__main__":

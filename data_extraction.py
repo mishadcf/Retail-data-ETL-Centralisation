@@ -9,22 +9,30 @@ import config
 
 
 class DataExtractor:
+    """Class to handle various types of data extraction methods."""
+
     def __init__(self, db_connector=None):
+        """Initialize DataExtractor with a DatabaseConnector instance.
+
+        Args:
+            db_connector (DatabaseConnector, optional): Instance of DatabaseConnector. Defaults to None.
+        """
         if db_connector is None:
             db_connector = DatabaseConnector()
         self.db_connector = db_connector
 
     def read_rds_table(self, table_name):
-        """_summary_
+        """
+        Reads a table from RDS into a Pandas DataFrame.
 
         Args:
-            table_name (_type_): _description_
+            table_name (str): Name of the table to read from RDS.
 
         Raises:
-            ValueError: _description_
+            ValueError: If the table cannot be read.
 
         Returns:
-            DataFrame: _description_
+            pd.DataFrame: DataFrame containing table data.
         """
 
         engine = self.db_connector.init_db_engine()
@@ -46,6 +54,16 @@ class DataExtractor:
 
     @staticmethod
     def list_number_of_stores(n_stores_API_endpoint, headers):
+        """
+        Gets the number of stores from an API endpoint.
+
+        Args:
+            n_stores_API_endpoint (str): API endpoint to get number of stores.
+            headers (dict): HTTP headers for the request.
+
+        Returns:
+            int or None: Number of stores or None if the request is unsuccessful.
+        """
         r = requests.get(n_stores_API_endpoint, headers=headers)
         if r.status_code == 200:
             return json.loads(r.text)["number_stores"]
@@ -58,6 +76,17 @@ class DataExtractor:
         base_URL="https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}",
         n_stores_API_endpoint="https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores",
     ):
+        """
+        Retrieve details of all stores from an API.
+
+        Args:
+            headers (dict, optional): HTTP headers for the request. Defaults to None.
+            base_URL (str, optional): Base URL for store details API. Defaults to a preset URL.
+            n_stores_API_endpoint (str, optional): API endpoint to get number of stores. Defaults to a preset URL.
+
+        Returns:
+            pd.DataFrame or None: DataFrame containing store details or None if unsuccessful.
+        """
         if headers == None:
             api_key = os.environ.get("API_KEY")
             if api_key == None:
@@ -83,6 +112,12 @@ class DataExtractor:
 
     @staticmethod
     def extract_from_s3():
+        """
+        Extracts product data from an S3 bucket.
+
+        Returns:
+            pd.DataFrame: DataFrame containing product details.
+        """
         s3 = boto3.client("s3")
         bucket_name = "data-handling-public"
         file_key = "products.csv"
@@ -95,6 +130,15 @@ class DataExtractor:
     def extract_json_from_URL(
         endpoint_URL="https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json",
     ):
+        """
+        Extracts JSON data from a URL into a Pandas DataFrame.
+
+        Args:
+            endpoint_URL (str, optional): The URL where the JSON data is located. Defaults to a preset URL.
+
+        Returns:
+            pd.DataFrame: DataFrame containing the JSON data.
+        """
         response = requests.get(endpoint_URL).text
         j = json.loads(response)
         df_date_events = pd.DataFrame(j)

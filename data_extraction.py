@@ -67,7 +67,7 @@ class DataExtractor:
                     "Please set the API_KEY environment variable before running this script."
                 )
             headers = {"x-api-key": api_key}
-            print(headers)
+
         n = DataExtractor.list_number_of_stores(n_stores_API_endpoint, headers)
         if n is None:
             return None  # or raise an exception
@@ -94,8 +94,6 @@ class DataExtractor:
         df_products = pd.read_csv(local_file_path)
         return df_products
 
-    import boto3
-
     @staticmethod
     def extract_from_s32(
         bucket_name="data-handling-public",
@@ -118,6 +116,16 @@ class DataExtractor:
         except FileNotFoundError as e:
             print(f"File not found: {e}")
             return None
+
+    @staticmethod
+    def extract_from_s33():
+        s3 = boto3.client("s3")
+        bucket_name = "data-handling-public"
+        file_key = "products.csv"
+        local_file_path = "./products.csv"
+        s3.download_file(bucket_name, file_key, local_file_path)
+        df_products = pd.read_csv(local_file_path)
+        return df_products
 
 
 # TODO: fill docstrings

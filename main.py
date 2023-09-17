@@ -10,9 +10,7 @@ import boto3
 
 api_key = os.environ.get("API_KEY")
 if api_key is None:
-    raise Exception(
-        "Please set the API_KEY environment variable before running this script."
-    )
+    input("enter your S3")
 
 headers = {"x-api-key": api_key}
 
@@ -59,12 +57,10 @@ def main():
         dc.upload_to_db("dim_stores", cleaned_data)
 
     if args.type == "product":
-        data = data_extraction.DataExtractor.extract_from_s32(
-            "s3://data-handling-public/products.csv"
-        )
+        data = data_extraction.DataExtractor.extract_from_s33()
         cleaned_data = data_cleaning.DataCleaning.clean_product_data(data)
         dc = database_utils.DatabaseConnector()
-        dc.upload_to_db("dim_products", cleaned_data)
+        dc.upload_to_db("dim_productss", cleaned_data)
 
     if args.type == "order":
         de = data_extraction.DataExtractor()

@@ -50,6 +50,7 @@ def main():
 
         dc = database_utils.DatabaseConnector()
         dc.upload_to_db("dim_users_table", cleaned_data)
+        print("The script ran without error, check postgres for the table")
 
     if args.type == "card":
         de = data_extraction.DataExtractor()
@@ -59,18 +60,21 @@ def main():
         cleaned_data = data_cleaning.DataCleaning.clean_card_data(data)
         dc = database_utils.DatabaseConnector()
         dc.upload_to_db("dim_cards", cleaned_data)
+        print("The script ran without error, check postgres for the table")
 
     if args.type == "store":
         data = data_extraction.DataExtractor.retrieve_stores_data()
         cleaned_data = data_cleaning.DataCleaning.clean_store_data(data)
         dc = database_utils.DatabaseConnector()
         dc.upload_to_db("dim_stores", cleaned_data)
+        print("The script ran without error, check postgres for the table")
 
     if args.type == "product":
-        data = data_extraction.DataExtractor.extract_from_s33()
+        data = data_extraction.DataExtractor.extract_from_s3()
         cleaned_data = data_cleaning.DataCleaning.clean_product_data(data)
         dc = database_utils.DatabaseConnector()
-        dc.upload_to_db("dim_productss", cleaned_data)
+        dc.upload_to_db("dim_products", cleaned_data)
+        print("The script ran without error, check postgres for the table")
 
     if args.type == "order":
         de = data_extraction.DataExtractor()
@@ -78,12 +82,14 @@ def main():
         cleaned_data = data_cleaning.DataCleaning.clean_orders_data(data)
         dc = database_utils.DatabaseConnector()
         dc.upload_to_db("orders_table", cleaned_data)
+        print("The script ran without error, check postgres for the table")
 
     if args.type == "date_event":
         data = data_extraction.DataExtractor.extract_json_from_URL()
         cleaned_data = data_cleaning.DataCleaning.clean_date_events(data)
         dc = database_utils.DatabaseConnector()
         dc.upload_to_db("dim_date_times", cleaned_data)
+        print("The script ran without error, check postgres for the table")
 
 
 if __name__ == "__main__":

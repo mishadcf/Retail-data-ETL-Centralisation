@@ -159,7 +159,6 @@ class DataCleaning:
             columns={"level_0", "index", "1", "first_name", "last_name"}, inplace=True
         )
         df.dropna(axis=0, subset=["card_number"], inplace=True)
-        df.reset_index(inplace=True)
 
         return df
 

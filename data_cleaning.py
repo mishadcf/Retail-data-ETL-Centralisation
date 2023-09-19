@@ -3,10 +3,21 @@ import transformations
 
 
 class DataCleaning:
-    """Base class for tables to clean"""
+    """
+    Class for performing data cleaning operations on different types of data.
+
+    """
 
     def clean_user_data(df_user):
-        """Cleans the user DataFrame"""
+        """
+        Cleans the user DataFrame.
+
+        Args:
+            df_user (pd.DataFrame): DataFrame containing raw user data.
+
+        Returns:
+            pd.DataFrame: DataFrame containing cleaned user data.
+        """
 
         if "index" in df_user.columns:
             df_user = df_user.drop("index", axis=1)
@@ -24,7 +35,15 @@ class DataCleaning:
         return df_user
 
     def clean_card_data(df):
-        """Cleans the card data DataFrame"""
+        """
+        Cleans the card data DataFrame.
+
+        Args:
+            df (pd.DataFrame): DataFrame containing raw card data.
+
+        Returns:
+            pd.DataFrame: DataFrame containing cleaned card data.
+        """
 
         def drop_rows_with_invalid_card_numbers(df):
             return df[~df["card_number"].astype(str).str.contains("\?", regex=True)]
@@ -38,7 +57,15 @@ class DataCleaning:
         return df
 
     def clean_store_data(df):
-        """Cleans the store data DataFrame"""
+        """
+        Cleans the store data DataFrame.
+
+        Args:
+            df (pd.DataFrame): DataFrame containing raw store data.
+
+        Returns:
+            pd.DataFrame: DataFrame containing cleaned store data.
+        """
 
         df = df.drop("lat", axis=1)
         df = df.drop("index", axis=1)
@@ -57,7 +84,15 @@ class DataCleaning:
         return df
 
     def clean_product_data(df_products):
-        """Cleans the product data DataFrame"""
+        """
+        Cleans the product data DataFrame.
+
+        Args:
+            df_products (pd.DataFrame): DataFrame containing raw product data.
+
+        Returns:
+            pd.DataFrame: DataFrame containing cleaned product data.
+        """
         df_products.drop("Unnamed: 0", axis=1, inplace=True)
         df_products = transformations.clean_upper_or_numeric_rows(df_products)
         df_products.dropna(inplace=True)
@@ -110,20 +145,34 @@ class DataCleaning:
         df_products["weight(KG)"] = df_products["weight(KG)"].str.strip(".")
         df_products["weight(KG)"] = df_products["weight(KG)"].apply(clean_weight_entry)
 
-        # TODO : Join convert_product_weights with clean_product_data in 1 function?
-
     def clean_orders_data(df):
-        """Cleans orders DataFrame"""
-        df.drop(columns={"level_0", "index", "1"}, inplace=True)
-        df.dropna(axis=0, subset=["first_name", "last_name"], inplace=True)
+        """
+        Cleans the orders DataFrame.
+
+        Args:
+            df (pd.DataFrame): DataFrame containing raw orders data.
+
+        Returns:
+            pd.DataFrame: DataFrame containing cleaned orders data.
+        """
+        df.drop(
+            columns={"level_0", "index", "1", "first_name", "last_name"}, inplace=True
+        )
         df.dropna(axis=0, subset=["card_number"], inplace=True)
         df.reset_index(inplace=True)
-        df.drop("index", axis=1, inplace=True)
 
         return df
 
     def clean_date_events(df):
-        """Cleans date events DataFrame"""
+        """
+        Cleans the date events DataFrame.
+
+        Args:
+            df (pd.DataFrame): DataFrame containing raw date events data.
+
+        Returns:
+            pd.DataFrame: DataFrame containing cleaned date events data.
+        """
         df = transformations.clean_upper_or_numeric_rows(df)
         df["month"] = df["month"].astype("int")
         df["year"] = df["year"].astype("int")
@@ -144,6 +193,3 @@ class DataCleaning:
 
         df.drop("datetime_str", axis=1, inplace=True)
         return df
-
-
-# TODO : need consistency of naming  + docstrings

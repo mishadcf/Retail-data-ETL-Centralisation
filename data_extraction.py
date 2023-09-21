@@ -39,7 +39,9 @@ class DataExtractor:
         return pd.read_sql_table(table_name, engine)
 
     @staticmethod
-    def retrieve_pdf_data(URL):
+    def retrieve_pdf_data(
+        URL="https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf",
+    ):
         """Uses tabula-py to read a PDF document's table into a DataFrame
 
         Args:

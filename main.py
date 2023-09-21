@@ -3,10 +3,8 @@ import data_extraction
 import database_utils
 import argparse
 import os
-import config
-import requests
 import pandas as pd
-import boto3
+
 
 """
 Main script to execute ETL (Extract, Transform, Load) tasks for different types of data.

@@ -27,6 +27,13 @@ def clean_user_data_rows_all_NULL(df):
 
 
 def is_upper_or_numeric(val):
+    """
+    The function `is_upper_or_numeric` checks if a given value is either uppercase or numeric.
+
+    :param val: The parameter `val` is a variable that represents a value that we want to check if it is
+    either uppercase or numeric
+    :return: a boolean value indicating whether the input value is either uppercase or numeric.
+    """
     return val.isupper() or val.isnumeric()
 
 

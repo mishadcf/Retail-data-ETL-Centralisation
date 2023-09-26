@@ -48,7 +48,7 @@ class DataCleaning:
         def drop_rows_with_invalid_card_numbers(df):
             return df[~df["card_number"].astype(str).str.contains("\?", regex=True)]
 
-        str.replace("?", "")
+        # str.replace("?", "")
         df = drop_rows_with_invalid_card_numbers(df)
         df = transformations.clean_upper_or_numeric_rows(df)
         df.date_payment_confirmed = df.date_payment_confirmed.astype("datetime64[as]")
@@ -75,6 +75,7 @@ class DataCleaning:
         df.address = transformations.remove_newline_character(df.address)
         df.staff_numbers = df.staff_numbers.str.replace(r"\D", "", regex=True)
         df = transformations.clean_user_data_rows_all_NULL(df)
+        df = transformations.clean_country_code_ggb(df)
 
         df.locality = df.locality.astype("category")
         df.store_type = df.store_type.astype("category")

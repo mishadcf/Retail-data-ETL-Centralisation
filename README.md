@@ -1,9 +1,28 @@
 # ETL Centralisation AIcore
 
-## Scenario 
+### 📌 Table of Contents
+- [Introduction](#introduction)
+- [Data Sources Overview]((#overview))
+- [Technologies](#technologies)
+- [Setup](#setup)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [License](#license)
+
+### Introduction
+
+![ETL Screenshot](images/q1.png)
 
 
 > ℹ️ **Task**: We manage large data from six distinct sources, each with its unique characteristics, required cleaning/extraction steps, and key fields. Here's an overview:
+
+------
+Each data source posed unique challenges for extraction, cleaning, and utilization, warranting customized treatment.
+
+
+> 🤔 **My approach**: for each data source, I wrote and checked the functions in Notebooks before organising the code in scripts, adhering to OOP principles.
+
+-----
 
 
 ### Data Sources Overview
@@ -17,7 +36,6 @@
 #### 2. RDS Database in AWS (User Data)
 
 - **Table**: `dim_users`
-- **Relevance**: Holds user information.
 - **Primary Key**: `user_uuid`
 - **Cleaning**: 
 
@@ -49,16 +67,19 @@
 - **Primary Key**: `date_uuid`
 - **Cleaning**: 
 
-Each data source posed unique challenges for extraction, cleaning, and utilization, warranting customized treatment.
+### Technology
+- Python
+- Packages: Tabula, Boto3 , Pandas, Argparse, Yaml, Json, Requests, OS 
+- AWS : RDS, S3
+- PostgreSQL (PGadmin)
 
+### Setup
 
-> 🤔 **My approach**: for each data source, I wrote and checked the functions in Notebooks before organising the code in scripts, adhering to OOP principles : abstraction, inheritance, polymorphism.
+### Usage
 
+### Screenshots
 
-
-
-
-
+### Licence 
 
 
 

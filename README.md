@@ -1,4 +1,16 @@
-#  ETL Centralisation AIcore 
+#  ETL Retail Data Centralisation 
+
+## 🛠️ **AiCore Project**
+
+This project is a component of my extensive training in 'Data and AI' at **AiCore**.
+
+> 🚨 **Note:** Unlike many learning projects, the developments and code implementations in this repository are not driven by tutorials. Each line of code and every strategic decision was conceptualized and executed by myself, adhering to fundamental guidelines provided by the instructors at AiCore.
+
+### 🌟 **Objective and Scope:**
+This project primarily aims to build an ETL pipeline for disparate data paralleling what would be seen in a data-immature retail organisation. Using OOP principles, I wrote code for extraction, cleaning and upload to a postgres database. 
+
+
+
 
 ### 📌 Table of Contents
 - [Introduction](#introduction)
@@ -24,40 +36,40 @@ Each source necessitates tailored strategies for extraction, cleaning, and utili
 - **Table**: `order_table`
 - **Relevance**: High; contains crucial sales information.
 - **Fields to Use**: `date_uuid`, `user_uuid`, `card_number`, `store_code`, `product_code`, `product_quantity`.
-- **Cleaning**: 
+
 #### 2. RDS Database in AWS (User Data)
 
 - **Table**: `dim_users`
-- **Primary Key**: `user_uuid`
-- **Cleaning**: 
+- **Final Table Primary Key**: `user_uuid`
+
 
 #### 3. AWS S3 Public Link (Card Details)
 
 - **Source**: PDF available through an S3 public link.
 - **Table**: `dim_card_details`
 - **Reading Method**: Utilizing the `tabula` package for PDF extraction.
-- **Primary Key**: `card_number`
-- **Cleaning**: 
+- **Final Table Primary Key**: `card_number`
+
 
 #### 4. AWS S3 Bucket (Product Data)
 
 - **Table**: `dim_product`
 - **Reading Method**: Using `boto3` for data retrieval.
-- **Primary Key**: `product_code`
-- **Cleaning**: 
+- **Final Table Primary Key**: `product_code`
+
 #### 5. Restful API (Store Details)
 
 - **Table**: `dim_store_details`
 - **Reading Method**: GET method from the API.
 - **Data Format**: JSON; convert to a Pandas DataFrame.
-- **Primary Key**: `store_code`
-- **Cleaning**: 
+- **Final Table Primary Key**: `store_code`
+
 #### 6. Public Link (Date Times)
 
 - **Table**: `dim_date_times`
 - **Reading Method**: JSON available through a public link; convert to a Pandas DataFrame.
-- **Primary Key**: `date_uuid`
-- **Cleaning**: 
+- **Final Table Primary Key**: `date_uuid`
+
 
 ### 💻 Technologies <a name="technologies"></a>
 - **Language:** `Python`

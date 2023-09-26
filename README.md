@@ -1,32 +1,24 @@
-# ETL Centralisation AIcore
+#  ETL Centralisation AIcore 
 
 ### 📌 Table of Contents
 - [Introduction](#introduction)
-- [Data Sources Overview]((#overview))
+- [Data Sources Overview](#data-sources-overview)
 - [Technologies](#technologies)
 - [Setup](#setup)
 - [Usage](#usage)
 - [Screenshots](#screenshots)
 - [License](#license)
 
-### Introduction
-
+### 🎯 Introduction
 ![ETL Screenshot](images/q1.png)
 
+> ℹ️ **Task:** The core objective is to manage extensive data derived from six unique sources, each marked with distinct characteristics, necessary cleaning/extraction steps, and specific key fields. Below is an inclusive overview:
 
-> ℹ️ **Task**: We manage large data from six distinct sources, each with its unique characteristics, required cleaning/extraction steps, and key fields. Here's an overview:
+Each source necessitates tailored strategies for extraction, cleaning, and utilization due to their unique challenges.
 
-------
-Each data source posed unique challenges for extraction, cleaning, and utilization, warranting customized treatment.
+> 🤔 **Approach:** I initiated with writing and testing functions in Notebooks for each data source. After meticulous verification, the code was systematically organized into scripts, with strict adherence to OOP principles ensuring modularity and readability.
 
-
-> 🤔 **My approach**: for each data source, I wrote and checked the functions in Notebooks before organising the code in scripts, adhering to OOP principles.
-
------
-
-
-### Data Sources Overview
-
+### 📊 Data Sources Overview <a name="data-sources-overview"></a>
 #### 1.RDS Database in AWS (Order Table)
 
 - **Table**: `order_table`
@@ -67,19 +59,49 @@ Each data source posed unique challenges for extraction, cleaning, and utilizati
 - **Primary Key**: `date_uuid`
 - **Cleaning**: 
 
-### Technology
-- Python
-- Packages: Tabula, Boto3 , Pandas, Argparse, Yaml, Json, Requests, OS 
-- AWS : RDS, S3
-- PostgreSQL (PGadmin)
+### 💻 Technologies <a name="technologies"></a>
+- **Language:** `Python`
+- **Packages:** `Tabula`, `Boto3`, `Pandas`, `Tree`, `SQLAlchemy`, `Argparse`, `Pyyaml`, `Json`, `Requests`, `OS`
+- **Cloud Services:** `AWS RDS, S3`
+- **Database Management System:** `PostgreSQL (PGAdmin)`
 
-### Setup
+### 🛠 Setup <a name="setup"></a>
+To run this project, you need to create a `.env` file in your root directory and add your API key:
+```shell
+API_KEY=your_api_key
+```
+You need to create a `db_creds.yaml` file in your root directory and add your postgres and RDS details:
+```shell
 
-### Usage
+RDS:
+  HOST: 
+  PASSWORD: 
+  USER: 
+  DATABASE: 
+  PORT: 
 
-### Screenshots
+LOCAL:
+  HOST: 
+  PASSWORD: 
+  USER: 
+  DATABASE: 
+  PORT:
+```
+These are required for the final centralisation of tables into Postgres and the extraction from RDS.
 
-### Licence 
+### 📘 Usage <a name="usage"></a>
 
+```shell
+
+python main.py user
+```
+Would clean and centralise the user table in your PG Database. You specify which table you want to extract, transform, load.
+```shell
+
+python main.py choices
+```
+
+This shows the valid arguments to pass in 
+### ⚖️ License <a name="license"></a>
 
 

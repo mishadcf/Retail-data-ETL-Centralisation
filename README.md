@@ -10,7 +10,7 @@ This project is a component of my extensive training in 'Data and AI' at **AiCor
 This project primarily aims to build an ETL pipeline for disparate data paralleling what would be seen in a data-immature retail organisation. Using OOP principles, I wrote code for extraction, cleaning and upload to a postgres database. 
 
 
-
+---
 
 ### 📌 Table of Contents
 - [Introduction](#introduction)
@@ -19,8 +19,9 @@ This project primarily aims to build an ETL pipeline for disparate data parallel
 - [Setup](#setup)
 - [Usage](#usage)
 - [Screenshots](#screenshots)
+- [BI SQL queries](queries.md)
 - [License](#license)
-
+----
 ### 🎯 Introduction
 ![ETL Screenshot](images/q1.png)
 
@@ -29,7 +30,7 @@ This project primarily aims to build an ETL pipeline for disparate data parallel
 Each source necessitates tailored strategies for extraction, cleaning, and utilization due to their unique challenges.
 
 > 🤔 **Approach:** I initiated with writing and testing functions in Notebooks for each data source. After meticulous verification, the code was systematically organized into scripts, with strict adherence to OOP principles ensuring modularity and readability.
-
+----
 ### 📊 Data Sources Overview <a name="data-sources-overview"></a>
 #### 1.RDS Database in AWS (Order Table)
 
@@ -76,7 +77,7 @@ Each source necessitates tailored strategies for extraction, cleaning, and utili
 - **Packages:** `Tabula`, `Boto3`, `Pandas`, `Tree`, `SQLAlchemy`, `Argparse`, `Pyyaml`, `Json`, `Requests`, `OS`
 - **Cloud Services:** `AWS RDS, S3`
 - **Database Management System:** `PostgreSQL (PGAdmin)`
-
+-----
 ### 🛠 Setup <a name="setup"></a>
 To run this project, you need to create a `.env` file in your root directory and add your API key:
 ```shell
@@ -114,6 +115,12 @@ python main.py choices
 ```
 
 This shows the valid arguments to pass in 
-### ⚖️ License <a name="license"></a>
 
+
+
+###  License 📄
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+---
 

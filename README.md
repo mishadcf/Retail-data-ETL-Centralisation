@@ -5,7 +5,7 @@
 This project is a component of my extensive training in 'Data and AI' at **AiCore**.
 
 > 🚨 **Note:** Unlike many learning projects, the developments and code implementations in this repository are not driven by tutorials. Each line of code and every strategic decision was conceptualized and executed by myself, adhering to fundamental guidelines provided by the instructors at AiCore.
-
+---
 ### 🌟 **Objective and Scope:**
 This project primarily aims to build an ETL pipeline for disparate data paralleling what would be seen in a data-immature retail organisation. Using OOP principles, I wrote code for extraction, cleaning and upload to a postgres database. 
 
@@ -18,7 +18,7 @@ This project primarily aims to build an ETL pipeline for disparate data parallel
 - [Technologies](#technologies)
 - [Setup](#setup)
 - [Usage](#usage)
-- [Screenshots](#screenshots)
+- [Images](#images)
 - [BI SQL queries](queries.md)
 - [License](#license)
 ----
@@ -102,6 +102,8 @@ LOCAL:
 ```
 These are required for the final centralisation of tables into Postgres and the extraction from RDS.
 
+
+---
 ### 📘 Usage <a name="usage"></a>
 
 ```shell
@@ -114,9 +116,14 @@ Would clean and centralise the user table in your PG Database. You specify which
 python main.py choices
 ```
 
-This shows the valid arguments to pass in 
+This shows the valid arguments to pass in. 
 
+---
+### BI SQL queries
+Some business queries run on the cleaned/ centralised data
+[Here](queries.md)
 
+---
 
 ###  License 📄
 

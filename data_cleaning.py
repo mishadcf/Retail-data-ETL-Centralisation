@@ -48,6 +48,7 @@ class DataCleaning:
         def drop_rows_with_invalid_card_numbers(df):
             return df[~df["card_number"].astype(str).str.contains("\?", regex=True)]
 
+        str.replace("?", "")
         df = drop_rows_with_invalid_card_numbers(df)
         df = transformations.clean_upper_or_numeric_rows(df)
         df.date_payment_confirmed = df.date_payment_confirmed.astype("datetime64[as]")
